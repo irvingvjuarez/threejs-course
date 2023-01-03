@@ -1,6 +1,6 @@
-import * as Three from "three"
+import * as THREE from "three"
 
-const renderer = new Three.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer();
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
