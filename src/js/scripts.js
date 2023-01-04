@@ -1,5 +1,6 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
+import * as dat from "dat.gui"
 
 const renderer = new THREE.WebGLRenderer();
 
@@ -49,7 +50,7 @@ const gridHelper = new THREE.GridHelper(30);
 scene.add(gridHelper)
 
 // Sphere
-const sphereMaterialConfig = { color: "blue", wireframe: true }
+const sphereMaterialConfig = { color: "blue" }
 
 const sphereGeometry = new THREE.SphereGeometry(2.5, 50, 50);
 const sphereMaterial = new THREE.MeshBasicMaterial(sphereMaterialConfig);
@@ -57,10 +58,20 @@ const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 scene.add(sphere)
 
 // Sphere with a standard material
-const standardSphereConfig = { ...sphereMaterialConfig, wireframe: false }
 
-const standardSphereMaterial = new THREE.MeshStandardMaterial(standardSphereConfig);
+const standardSphereMaterial = new THREE.MeshStandardMaterial(sphereMaterialConfig);
 const standardSphere = new THREE.Mesh(sphereGeometry, standardSphereMaterial);
 scene.add(standardSphere);
 
 standardSphere.translateX(6)
+
+// Dat library
+const gui = new dat.GUI();
+const guiOptions = {
+	sphereColor: "#ffea00"
+}
+
+gui.addColor(guiOptions, "sphereColor")
+	.onChange(evt => {
+		sphere.material.color.set(evt)
+	})
