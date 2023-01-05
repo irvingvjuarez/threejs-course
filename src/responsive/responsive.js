@@ -41,8 +41,9 @@ cubes.forEach(mesh => scene.add(mesh))
 
 // Function to analize if the renderer size needs to be changed
 function changeRendererSize() {
-	const resizeWidth = canvas.width !== window.innerWidth
-	const resizeHeight = canvas.height !== window.innerHeight
+	const pixelRatio = window.devicePixelRatio
+	const resizeWidth = canvas.width * pixelRatio !== window.innerWidth
+	const resizeHeight = canvas.height * pixelRatio !== window.innerHeight
 	const resizingResult = resizeWidth || resizeHeight
 
 	if (resizingResult) {
