@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node node_modules/parcel ./src/index.html",
 		"start:shadows": "node node_modules/parcel ./src/shadows/index.html",
-		"start:basics": "node node_modules/parcel ./src/basics/index.html"
+		"start:basics": "node node_modules/parcel ./src/basics/index.html",
+		"start:responsive": "node node_modules/parcel ./src/responsive/index.html"
   },
   "repository": {
     "type": "git",
