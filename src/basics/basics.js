@@ -27,5 +27,15 @@ const boxMaterial = new THREE.MeshBasicMaterial({ color: "green" })
 const cube = new THREE.Mesh(boxGeometry, boxMaterial)
 scene.add(cube)
 
+// Animate the cube to see it as a whole, and not only one face
+function animate(time) {
+	time *= 0.001 // convert time to seconds
+	cube.rotation.x = cube.rotation.y = time;
+	renderer.render(scene, camera)
+	requestAnimationFrame(animate)
+}
+
+requestAnimationFrame(animate)
+
 // Rendering the whole scenario
-renderer.render(scene, camera)
+// renderer.render(scene, camera)
