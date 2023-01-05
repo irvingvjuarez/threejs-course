@@ -16,21 +16,34 @@ camera.position.z = 2;
 // Setting up scenes
 const scene = new THREE.Scene();
 
-// Setting up the displayed mash
-const boxWidth = 1;
-const boxHeight = boxWidth;
-const boxDepth = boxHeight
-const boxGeometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+// Function to add mashes automatically
+function createMash(config = {}) {
+	const size = config.size || 1
+	const color = config.color || "green"
 
-const boxMaterial = new THREE.MeshPhongMaterial({ color: "green" })
+	const {
+		x = 0,
+		geometry = new THREE.BoxGeometry(size, size, size),
+		material = new THREE.MeshPhongMaterial({ color }),
+	} = config
 
-const cube = new THREE.Mesh(boxGeometry, boxMaterial)
-scene.add(cube)
+	const mesh = new THREE.Mesh(geometry, material)
+	mesh.position.x = x
+
+	return mesh
+}
+
+// Adding mashes to the scene
+const cube = createMash()
+const cube2 = createMash({ color: "#44aa88", x: -2 })
+const cube3 = createMash({ color: "#aa8844", x: 2 })
+const cubes = [cube, cube2, cube3]
+cubes.forEach(mesh => scene.add(mesh))
 
 // Animate the cube to see it as a whole, and not only one face
 function animate(time) {
 	time *= 0.001 // convert time to seconds
-	cube.rotation.x = cube.rotation.y = time;
+	cubes.forEach(mesh => mesh.rotation.x = mesh.rotation.y = time)
 	renderer.render(scene, camera)
 	requestAnimationFrame(animate)
 }
