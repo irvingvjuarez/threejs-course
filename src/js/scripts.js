@@ -19,6 +19,17 @@ scene.add(axesHelper);
 camera.position.set(0, 10, 7);
 orbit.update()
 
+// LIGHTS
+const ambientLight = new THREE.AmbientLight("#333333");
+scene.add(ambientLight)
+
+const directionalLight = new THREE.DirectionalLight("#fff", 1)
+scene.add(directionalLight)
+directionalLight.position.set(-30, -50, 0);
+
+const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+scene.add(dLightHelper)
+
 // Box
 const boxMaterialConfig = { color: "#00ff00" }
 
@@ -71,10 +82,6 @@ gui.addColor(guiOptions, "sphereColor")
 
 gui.add(guiOptions, "wireframe").onChange(evt => {
 	sphere.material.wireframe = evt
-})
-
-gui.add(guiOptions, "speed").onChange(evt => {
-
 })
 
 // Adding controllers for the speed
