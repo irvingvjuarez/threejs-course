@@ -68,10 +68,15 @@ standardSphere.translateX(6)
 // Dat library
 const gui = new dat.GUI();
 const guiOptions = {
-	sphereColor: "#ffea00"
+	sphereColor: "#ffea00",
+	wireframe: false
 }
 
 gui.addColor(guiOptions, "sphereColor")
 	.onChange(evt => {
 		sphere.material.color.set(evt)
 	})
+
+gui.add(guiOptions, "wireframe").onChange(evt => {
+	sphere.material.wireframe = evt
+})
