@@ -22,7 +22,7 @@ const boxHeight = boxWidth;
 const boxDepth = boxHeight
 const boxGeometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
 
-const boxMaterial = new THREE.MeshBasicMaterial({ color: "green" })
+const boxMaterial = new THREE.MeshPhongMaterial({ color: "green" })
 
 const cube = new THREE.Mesh(boxGeometry, boxMaterial)
 scene.add(cube)
@@ -36,6 +36,13 @@ function animate(time) {
 }
 
 requestAnimationFrame(animate)
+
+// Adding a light
+const color = 0xFFFFFF
+const intensity = 1;
+const light = new THREE.DirectionalLight(color, intensity);
+light.position.set(-2, 2, 4)
+scene.add(light)
 
 // Rendering the whole scenario
 // renderer.render(scene, camera)
