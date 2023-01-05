@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node node_modules/parcel ./src/index.html"
+    "start": "node node_modules/parcel ./src/index.html",
+		"start:shadows": "node node_modules/parcel ./src/shadows/index.html"
   },
   "repository": {
     "type": "git",
