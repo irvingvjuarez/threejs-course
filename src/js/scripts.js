@@ -27,15 +27,6 @@ const boxMaterial = new THREE.MeshBasicMaterial(boxMaterialConfig);
 const box = new THREE.Mesh(boxGeometry, boxMaterial);
 scene.add(box)
 
-// box.translateY(-3)
-
-function rotateBox(time) {
-	box.rotation.x = time / 1000;
-	box.rotation.y = time / 1000;
-	renderer.render(scene, camera)
-}
-renderer.setAnimationLoop(rotateBox)
-
 // Plane
 const planeMaterialConfig = { color: "#fff", side: THREE.DoubleSide }
 
@@ -69,7 +60,8 @@ standardSphere.translateX(6)
 const gui = new dat.GUI();
 const guiOptions = {
 	sphereColor: "#ffea00",
-	wireframe: false
+	wireframe: false,
+	speed: 0.01
 }
 
 gui.addColor(guiOptions, "sphereColor")
@@ -80,3 +72,24 @@ gui.addColor(guiOptions, "sphereColor")
 gui.add(guiOptions, "wireframe").onChange(evt => {
 	sphere.material.wireframe = evt
 })
+
+gui.add(guiOptions, "speed").onChange(evt => {
+
+})
+
+// Adding controllers for the speed
+gui.add(guiOptions, "speed", 0, 0.1);
+
+// Adding animation to the sphere
+let step = 0;
+
+function rotateBox(time) {
+	box.rotation.x = time / 1000;
+	box.rotation.y = time / 1000;
+
+	step += guiOptions.speed
+	sphere.position.y = 10 * Math.abs(Math.sin(step))
+
+	renderer.render(scene, camera)
+}
+renderer.setAnimationLoop(rotateBox)
