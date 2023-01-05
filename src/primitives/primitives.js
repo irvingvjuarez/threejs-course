@@ -8,32 +8,20 @@ const canvas = renderer.domElement
 document.body.appendChild(canvas);
 
 // Setting up camera
-const fov = 75;
-const aspect = window.innerWidth / window.innerHeight;
+const fov = 40;
+const aspect = 2;
 const near = 0.1;
-const far = 5;
+const far = 1000;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-camera.position.z = 5
+camera.position.z = 120
 
 // Setting up the scene
 const scene = new THREE.Scene()
+scene.background = new THREE.Color(0xAAAAAA)
 
-// Creation of a box buffer geometry
-const squareGeometry = new THREE.BufferGeometry()
-const vertices = new Float32Array([
-	-1, -1, 1,
-	1, -1, 1,
-	1, 1, 1,
-
-	1, 1, 1,
-	-1, 1, 1,
-	-1, -1, 1
-])
-squareGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3))
-
-const squareMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-const square = new THREE.Mesh(squareGeometry, squareMaterial)
-scene.add(square)
+// CONSTANTS
+const MESHES = []
+const GAP = 15
 
 // Function to determine if the canvas requires changes in size
 function updatingCanvas() {
@@ -49,7 +37,30 @@ function updatingCanvas() {
 	return updatingResult
 }
 
-// Animate the square to see it as a whole
+// Function to create a random colored material
+function createMaterial() {
+	const material = new THREE.MeshPhongMaterial({ side: THREE.DoubleSide })
+	const hue = Math.random();
+	const saturation = 1;
+	const luminance = 0.5;
+	material.color.setHSL(hue, saturation, luminance)
+
+	return material
+}
+
+// Function to attach the material to the geometry
+function createMesh(x, y, geometry) {
+	const mesh = new THREE.Mesh(geometry, createMaterial())
+	mesh.position.x = x * GAP;
+	mesh.position.y = y * GAP;
+
+	MESHES.push(mesh)
+}
+
+// Rendering the current meshes
+MESHES.forEach(mesh => scene.add(mesh))
+
+// Animate the mesh to see it as a whole
 function animate(time) {
 	time *= 0.001 // convert time to seconds
 
