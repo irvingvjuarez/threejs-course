@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { BoxBufferGeometry } from "three"
 
 // Setting up canvas
 const renderer = new THREE.WebGLRenderer();
@@ -57,6 +58,9 @@ function createMesh(x, y, geometry) {
 	MESHES.push(mesh)
 }
 
+const boxSize = 8;
+createMesh(-2, 2, new BoxBufferGeometry(boxSize, boxSize, boxSize))
+
 // Rendering the current meshes
 MESHES.forEach(mesh => scene.add(mesh))
 
@@ -69,7 +73,7 @@ function animate(time) {
 		camera.updateProjectionMatrix()
 	}
 
-	square.rotation.x = square.rotation.y = time
+	MESHES.forEach(mesh => mesh.rotation.x = mesh.rotation.y = time)
 	renderer.render(scene, camera)
 	requestAnimationFrame(animate)
 }
