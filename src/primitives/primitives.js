@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { BoxBufferGeometry } from "three"
 
 // Setting up canvas
 const renderer = new THREE.WebGLRenderer();
@@ -24,6 +23,17 @@ scene.background = new THREE.Color(0xAAAAAA)
 const MESHES = []
 const GAP = 15
 
+// Adding lights to the scene
+const color = "white"
+const intensity = 1
+const light = new THREE.DirectionalLight(color, intensity)
+light.position.set(0,0,3)
+scene.add(light)
+
+// Adding light helper
+// const lightHelper = new THREE.DirectionalLightHelper(light, 5);
+// scene.add(lightHelper)
+
 // Function to determine if the canvas requires changes in size
 function updatingCanvas() {
 	const pixelRatio = window.devicePixelRatio
@@ -40,11 +50,14 @@ function updatingCanvas() {
 
 // Function to create a random colored material
 function createMaterial() {
-	const material = new THREE.MeshPhongMaterial({ side: THREE.DoubleSide })
-	const hue = Math.random();
-	const saturation = 1;
-	const luminance = 0.5;
-	material.color.setHSL(hue, saturation, luminance)
+	const n = (Math.random() * 0xfffff * 1000000).toString(16);
+	const color = '#' + n.slice(0, 6);
+	const material = new THREE.MeshPhongMaterial({ side: THREE.DoubleSide, color })
+
+	// const hue = Math.random();
+	// const saturation = 1;
+	// const luminance = 0.5;
+	// material.color.setHSL(hue, saturation, luminance)
 
 	return material
 }
@@ -58,8 +71,13 @@ function createMesh(x, y, geometry) {
 	MESHES.push(mesh)
 }
 
+// Creating the Meshes
 const boxSize = 8;
-createMesh(-2, 2, new BoxBufferGeometry(boxSize, boxSize, boxSize))
+createMesh(-2, 2, new THREE.BoxGeometry(boxSize, boxSize, boxSize))
+
+const circleRadius = 7;
+const circleSegments = 27;
+createMesh(-1, 2, new THREE.CircleGeometry(circleRadius, circleSegments))
 
 // Rendering the current meshes
 MESHES.forEach(mesh => scene.add(mesh))
