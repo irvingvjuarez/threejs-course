@@ -79,6 +79,19 @@ const circleRadius = 7;
 const circleSegments = 27;
 createMesh(-1, 2, new THREE.CircleGeometry(circleRadius, circleSegments))
 
+const coneRadius = 6;
+const coneHeight = 8;
+const coneSegments = 16;
+createMesh(0, 2, new THREE.ConeGeometry(coneRadius, coneHeight, coneSegments))
+
+const cylinderRadius = 4;
+const cylinderHeight = 8;
+const cylinderRadialSegments = 12;
+createMesh(1, 2, new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderHeight, cylinderRadialSegments))
+
+const dodecahedronRadius = 7;
+createMesh(2, 2, new THREE.DodecahedronGeometry(dodecahedronRadius))
+
 // Rendering the current meshes
 MESHES.forEach(mesh => scene.add(mesh))
 
