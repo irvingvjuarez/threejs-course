@@ -1,4 +1,7 @@
 import * as THREE from "three";
+// https://cdn.skypack.dev/three
+// import {ParametricGeometry} from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/geometries/ParametricGeometry";
+// import {ParametricGeometries} from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/geometries/ParametricGeometries";
 
 // Setting up canvas
 const renderer = new THREE.WebGLRenderer();
@@ -91,6 +94,55 @@ createMesh(1, 2, new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cyli
 
 const dodecahedronRadius = 7;
 createMesh(2, 2, new THREE.DodecahedronGeometry(dodecahedronRadius))
+
+const shape = new THREE.Shape()
+const x = -2
+const y = 0.75
+shape.bezierCurveTo(x + 2.5, y + 2.5, x + 2, y, x, y);
+shape.bezierCurveTo(x - 3, y, x - 3, y + 3.5, x - 3, y + 3.5);
+shape.bezierCurveTo(x - 3, y + 5.5, x - 1.5, y + 7.7, x + 2.5, y + 9.5);
+shape.bezierCurveTo(x + 6, y + 7.7, x + 8, y + 4.5, x + 8, y + 3.5);
+shape.bezierCurveTo(x + 8, y + 3.5, x + 8, y, x + 5, y);
+shape.bezierCurveTo(x + 3.5, y, x + 2.5, y + 2.5, x + 2.5, y + 2.5);
+const extrudeSettings = {
+	steps: 2,
+	depth: 2,
+	bevelEnabled: true,
+	bevelThickness: 1,
+	bevelSize: 1,
+	bevelSegments: 2
+}
+createMesh(x, y, new THREE.ExtrudeGeometry(shape, extrudeSettings))
+
+const icosahedronRadius = 7;
+createMesh(-1, 0.75, new THREE.IcosahedronGeometry(icosahedronRadius))
+
+const latherPoints = new Array(10)
+	.fill(0)
+	.map((_i, index) => new THREE.Vector2(Math.sin(index * 0.2) * 3 + 3, (index - 5) * 0.8))
+createMesh(0, 0.75, new THREE.LatheGeometry(latherPoints))
+
+const octahedronRadius = 7;
+createMesh(1, 0.75, new THREE.OctahedronGeometry(octahedronRadius))
+
+function klein(v, u, target) {
+	u += 2 * Math.PI
+	v += 2 * Math.PI
+
+	const x = (u < Math.PI)
+		? 3 * Math.cos(u) * (1 + Math.sin(u)) + (2 * (1 - Math.cos(u) / 2)) * Math.cos(u) * Math.cos(v)
+		: 3 * Math.cos(u) * (1 + Math.sin(u)) + (2 * (1 - Math.cos(u) / 2)) * Math.cos(v + Math.PI)
+	const z = (u < Math.PI)
+		? -8 * Math.sin(u) - 2 * (1 - Math.cos(u) / 2) * Math.sin(u) * Math.cos(v)
+		: -8 * Math.sin(u)
+	const y = -2 * (1 - Math.cos(u) / 2) * Math.sin(v);
+
+	target.set(x, y, z).multipluScalar(0.75)
+}
+const parametricSlices = 25
+const parametricStacks = 25
+// createMesh(2, 0.75, new ParametricGeometry(klein, parametricSlices, parametricStacks))
+
 
 // Rendering the current meshes
 MESHES.forEach(mesh => scene.add(mesh))
