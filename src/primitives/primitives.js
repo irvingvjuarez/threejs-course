@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { TextGeometry } from "three"
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 // https://cdn.skypack.dev/three
 // import {ParametricGeometry} from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/geometries/ParametricGeometry";
 // import {ParametricGeometries} from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/geometries/ParametricGeometries";
@@ -169,6 +171,21 @@ createMesh(1, -0.5, new THREE.SphereGeometry(sphereRadius, sphereWidth, sphereHe
 
 const tetrahedronRadius = 7;
 createMesh(2, -0.5, new THREE.TetrahedronGeometry(tetrahedronRadius))
+
+const loader = new FontLoader()
+loader.load("fonts/helvetiker_regular.typeface.json", (font) => {
+	createMesh(-2, -2, new TextGeometry("three", {
+		font: font,
+		size: 3.0,
+		height: 0.2,
+		curveSegments: 12,
+		bevelEnabled: true,
+		bevelThickness: 0.15,
+		bevelSize: 0.3,
+		bevelOffset: 0,
+		bevelSegments: 5
+	}))
+})
 
 // Rendering the current meshes
 MESHES.forEach(mesh => scene.add(mesh))
