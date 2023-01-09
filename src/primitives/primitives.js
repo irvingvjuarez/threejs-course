@@ -95,15 +95,15 @@ createMesh(1, 2, new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cyli
 const dodecahedronRadius = 7;
 createMesh(2, 2, new THREE.DodecahedronGeometry(dodecahedronRadius))
 
-const shape = new THREE.Shape()
-const x = -2
-const y = 0.75
-shape.bezierCurveTo(x + 2.5, y + 2.5, x + 2, y, x, y);
-shape.bezierCurveTo(x - 3, y, x - 3, y + 3.5, x - 3, y + 3.5);
-shape.bezierCurveTo(x - 3, y + 5.5, x - 1.5, y + 7.7, x + 2.5, y + 9.5);
-shape.bezierCurveTo(x + 6, y + 7.7, x + 8, y + 4.5, x + 8, y + 3.5);
-shape.bezierCurveTo(x + 8, y + 3.5, x + 8, y, x + 5, y);
-shape.bezierCurveTo(x + 3.5, y, x + 2.5, y + 2.5, x + 2.5, y + 2.5);
+const heart = new THREE.Shape()
+const heartX = -2
+const heartY = 0.75
+heart.bezierCurveTo(heartX + 2.5, heartY + 2.5, heartX + 2, heartY, heartX, heartY);
+heart.bezierCurveTo(heartX - 3, heartY, heartX - 3, heartY + 3.5, heartX - 3, heartY + 3.5);
+heart.bezierCurveTo(heartX - 3, heartY + 5.5, heartX - 1.5, heartY + 7.7, heartX + 2.5, heartY + 9.5);
+heart.bezierCurveTo(heartX + 6, heartY + 7.7, heartX + 8, heartY + 4.5, heartX + 8, heartY + 3.5);
+heart.bezierCurveTo(heartX + 8, heartY + 3.5, heartX + 8, heartY, heartX + 5, heartY);
+heart.bezierCurveTo(heartX + 3.5, heartY, heartX + 2.5, heartY + 2.5, heartX + 2.5, heartY + 2.5);
 const extrudeSettings = {
 	steps: 2,
 	depth: 2,
@@ -112,7 +112,7 @@ const extrudeSettings = {
 	bevelSize: 1,
 	bevelSegments: 2
 }
-createMesh(x, y, new THREE.ExtrudeGeometry(shape, extrudeSettings))
+createMesh(heartX, heartY, new THREE.ExtrudeGeometry(heart, extrudeSettings))
 
 const icosahedronRadius = 7;
 createMesh(-1, 0.75, new THREE.IcosahedronGeometry(icosahedronRadius))
@@ -125,24 +125,50 @@ createMesh(0, 0.75, new THREE.LatheGeometry(latherPoints))
 const octahedronRadius = 7;
 createMesh(1, 0.75, new THREE.OctahedronGeometry(octahedronRadius))
 
-function klein(v, u, target) {
-	u += 2 * Math.PI
-	v += 2 * Math.PI
+const planeSize = 9;
+const planeSegments = 2;
+createMesh(2, 0.75, new THREE.PlaneGeometry(planeSize, planeSize, planeSegments, planeSegments))
 
-	const x = (u < Math.PI)
-		? 3 * Math.cos(u) * (1 + Math.sin(u)) + (2 * (1 - Math.cos(u) / 2)) * Math.cos(u) * Math.cos(v)
-		: 3 * Math.cos(u) * (1 + Math.sin(u)) + (2 * (1 - Math.cos(u) / 2)) * Math.cos(v + Math.PI)
-	const z = (u < Math.PI)
-		? -8 * Math.sin(u) - 2 * (1 - Math.cos(u) / 2) * Math.sin(u) * Math.cos(v)
-		: -8 * Math.sin(u)
-	const y = -2 * (1 - Math.cos(u) / 2) * Math.sin(v);
+const vertices = [
+    -1, -1, -1,    1, -1, -1,    1,  1, -1,    -1,  1, -1,
+    -1, -1,  1,    1, -1,  1,    1,  1,  1,    -1,  1,  1,
+];
+const indices = [
+    2, 1, 0,    0, 3, 2,
+    0, 4, 7,    7, 3, 0,
+    0, 1, 5,    5, 4, 0,
+    1, 2, 6,    6, 5, 1,
+    2, 3, 7,    7, 6, 2,
+    4, 5, 6,    6, 7, 4,
+];
+const polyhedronRadius = 7;
+const polyhedronDetail = 2;
+createMesh(-2, -0.5, new THREE.PolyhedronGeometry(vertices, indices, polyhedronRadius, polyhedronDetail))
 
-	target.set(x, y, z).multipluScalar(0.75)
-}
-const parametricSlices = 25
-const parametricStacks = 25
-// createMesh(2, 0.75, new ParametricGeometry(klein, parametricSlices, parametricStacks))
+const ringInner = 2;
+const ringOuter = 7;
+const ringSegments = 18;
+createMesh(-1, -0.5, new THREE.RingGeometry(ringInner, ringOuter, ringSegments))
 
+const planeHeart = new THREE.Shape()
+const planeHeartX = 0;
+const planeHeartY = -0.5;
+planeHeart.moveTo(planeHeartX + 2.5, planeHeartY + 2.5);
+planeHeart.bezierCurveTo(planeHeartX + 2.5, planeHeartY + 2.5, planeHeartX + 2, planeHeartY, planeHeartX, planeHeartY);
+planeHeart.bezierCurveTo(planeHeartX - 3, planeHeartY, planeHeartX - 3, planeHeartY + 3.5, planeHeartX - 3, planeHeartY + 3.5);
+planeHeart.bezierCurveTo(planeHeartX - 3, planeHeartY + 5.5, planeHeartX - 1.5, planeHeartY + 7.7, planeHeartX + 2.5, planeHeartY + 9.5);
+planeHeart.bezierCurveTo(planeHeartX + 6, planeHeartY + 7.7, planeHeartX + 8, planeHeartY + 4.5, planeHeartX + 8, planeHeartY + 3.5);
+planeHeart.bezierCurveTo(planeHeartX + 8, planeHeartY + 3.5, planeHeartX + 8, planeHeartY, planeHeartX + 5, planeHeartY);
+planeHeart.bezierCurveTo(planeHeartX + 3.5, planeHeartY, planeHeartX + 2.5, planeHeartY + 2.5, planeHeartX + 2.5, planeHeartY + 2.5);
+createMesh(planeHeartX, planeHeartY, new THREE.ShapeGeometry(planeHeart))
+
+const sphereRadius = 7;
+const sphereWidth = 12;
+const sphereHeight = 8;
+createMesh(1, -0.5, new THREE.SphereGeometry(sphereRadius, sphereWidth, sphereHeight))
+
+const tetrahedronRadius = 7;
+createMesh(2, -0.5, new THREE.TetrahedronGeometry(tetrahedronRadius))
 
 // Rendering the current meshes
 MESHES.forEach(mesh => scene.add(mesh))
